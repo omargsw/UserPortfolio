@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:task1/model/user.dart';
 import 'package:http/http.dart' as http;
 import 'package:shimmer/shimmer.dart';
+import 'package:task1/user_remote.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);
@@ -15,23 +16,10 @@ class _ProfilePageState extends State<ProfilePage> {
   late Future<User> futureUser;
   bool isLoading = true;
 
-  Future<User> fetchUser() async {
-    //TODO: Split the URL into variables and use them here.
-    //TODO: Put it in a try catch
-    final response = await http.get(Uri.parse(
-        'https://compassionate-austin.65-108-72-55.plesk.page/wp-json/wp/v2/posts/13'));
-
-    if (response.statusCode == 200) {
-      return User.fromJson(jsonDecode(response.body));
-    } else {
-      throw Exception('Failed to load User Info');
-    }
-  }
-
   @override
   void initState() {
     super.initState();
-    futureUser = fetchUser();
+    futureUser = UserRemote.fetchUser();
   }
 
   @override
